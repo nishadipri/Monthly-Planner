@@ -1,0 +1,57 @@
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    padding-top: 100px; /* Location of the box */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    background-color: #BDBDBF;
+    margin: auto;
+    padding:15px;
+    border: 1px solid #BDBDBF;
+    width: 80%;
+    border-radius: 15px;
+  }
+  
+  /* The Close Button */
+  .closeModal {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .closeModal:hover,
+  .closeModal:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  #createTaskForm{
+    text-align: left;
+  }
+
+  #submitButton{
+    float: right;
+    background-color: #917BEF;
+    border-color:#917BEF;
+    width:80px;
+    height: 30px;
+    border-radius: 20px;
+  }
+
+  #modalHeader{
+    font-size:25px;
+  }

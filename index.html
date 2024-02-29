@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Final project</title>
+    <link href="style.css" rel="stylesheet">
+    <link href="modal.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="box-area">
+        <header>
+            <div class="wrapper">
+                <!--<div class="logo">
+                    <a href="#">Monthly planner</a>
+                </div>-->
+                <nav>
+                    <a href="#">Home</a>
+                    <a href="#">Blog</a>
+                    <a href="#">Products</a>
+                    <a href="#">About us</a>
+                    <a href="#">Contact</a>
+                </nav>
+            </div>
+        </header>
+        <div class="bannerArea">
+            <h1>Monthly Planner</h1>
+            <p class="mission">Organize, Prioritize, Succeed</p>
+        </div>
+        <div id="calenderContainer">
+            <div class="currentDateContainer">
+                <p id="currentYear">2023</p>
+                <p id="currentMonth">January</p>
+            </div>
+           
+            <div id="calendar">
+                <div id="daysOfWeek">
+                    <ul>
+                        <li>Sunday</li>
+                        <li>Monday</li>
+                        <li>Tuesday</li>
+                        <li>Wednesday</li>
+                        <li>Thursday</li>
+                        <li>Friday</li>
+                        <li>Saturday</li>
+                    </ul> 
+                </div>
+                <div id="daysOfMonth"></div>
+            </div>
+        </div>
+
+        <div id="addTaskModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+              <span class="closeModal">&times;</span>
+              <p id="modalHeader">Create task</p>
+              <form id="createTaskForm" name="createTaskForm" onsubmit="return createTask(event)">
+                <label for='task'>Task</label>
+                <input id='task' type='text' name='task'>
+                </br>
+                <label for='category'>Category</label>
+                <select name='category' id='category'>
+                    <option value='home'>Home</option>
+                    <option value='work'>Work</option>
+                    <option value='study'>Study</option>
+                    <option value='other'>Other</option>
+                </select><br>
+                <label for='difficulty'>Difficulty</label>
+                <select name='difficulty' id='difficulty'>
+                    <option value='easy'>Easy</option>
+                    <option value='medium'>Medium</option>
+                    <option value='hard'>Hard</option>
+                </select>
+                <button type="submit" id="submitButton">Save</button>
+              </form>
+            </div>
+          
+        </div>
+        <script src="script.js"></script>
+        <script src="modal.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,218 @@
+@font-face {
+  font-family: Regular;
+  src: url(font/RobotoSlab-Regular.ttf);
+}
+
+@font-face {
+  font-family: SemiBold;
+  src: url(font/RobotoSlab-SemiBold.ttf);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Regular;
+  text-align: center;
+}
+.wrapper {
+  width: 90%;
+  margin: 0 auto;
+}
+
+header {
+  width: 100%;
+  height: 100px;
+  background-color: #c2bae1;
+  position: fixed;
+}
+
+nav {
+  float: right;
+  line-height: 100px;
+}
+
+nav a {
+  text-decoration: none;
+  font-family: SemiBold;
+  letter-spacing: 0px;
+  font-size: 20px;
+  color: white;
+  margin: 0 6px;
+}
+
+nav a:hover {
+  color: black;
+}
+
+.bannerArea {
+  background-image: url(img/marten-bjork-rH8O0FHFpfw-unsplash.jpg);
+  background-size: cover;
+  background-position: center;
+  top: 100px;
+  height: 100vh;
+  width: 100%;
+  position: inherit; /*check again */
+
+  /* float: left;
+    margin-top: 100px;
+    
+    height: 300px;
+    background-color: orange;*/
+}
+
+/*.bannerArea::after{
+    content: " ";
+    position: absolute;
+    top:0;
+    left:0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.8;
+    z-index: -1;
+
+}  consider later*/
+
+.bannerArea h1 {
+  padding-top: 25%;
+  font-size: 80px;
+}
+.mission {
+  font-size: 25px;
+  color: black;
+  font-weight: bold;
+}
+
+#calenderContainer {
+  float: left;
+  width: 100%;
+  height: auto;
+  position: inherit;
+}
+
+#calendar {
+  margin: 0 auto;
+  width: 1100px;
+}
+
+#daysOfWeek {
+  width: 100%;
+  width: 100%;
+  float: left;
+}
+
+#daysOfWeek ul li {
+  display: inline-block;
+  width: 150px;
+  color: #927bef;
+}
+
+#daysOfMonth {
+  width: 100%;
+
+  float: left;
+  border-radius: 10px;
+}
+
+.weekRow {
+  float: left;
+  width: 100%;
+}
+
+.dayOfWeek {
+  float: left;
+  width: 150px;
+  height: 150px;
+  border: 1px solid gray;
+  text-align: right;
+  padding: 0px 2px;
+}
+
+.currentDateContainer {
+  position: inherit;
+  width: 1100px;
+  height: 80px;
+  margin: 40px 170px 40px 170px;
+  line-height: 40px;
+  text-align: left;
+  font-size: 30px;
+  color: #927bef;
+  font-family: SemiBold;
+}
+
+.disabled {
+  background-color: #ccc;
+}
+
+.taskOfTheDay {
+  display: block;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  align-items: flex-start;
+
+  margin: 0;
+}
+
+.task {
+  min-height: 100px;
+  background-color: aqua;
+  border: 1px solid red;
+}
+
+.tasksList {
+  list-style: none;
+  text-align: left;
+  font-size: 12px;
+}
+
+.tasksList li {
+  float: left;
+  width: 140px;
+  padding: 5px;
+}
+
+.tasksList li p {
+  float: left;
+}
+
+.tasksList li button {
+  float: right;
+  background-color: #927bef;
+  color: #fff;
+  font-weight: 600;
+  padding: 1px 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.dayHeader {
+  width: 100%;
+  height: 30px;
+  background-color: #ccc;
+  float: left;
+}
+
+.dayHeader p{
+  float: right;
+}
+
+.dayHeader button {
+  margin: 5px;
+  border: none;
+  background-color: #927bef;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.dayBody {
+  width: 100%;
+  height: 122px;
+  float: left;
+  overflow: auto;
+}
