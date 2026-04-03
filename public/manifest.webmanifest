@@ -1,0 +1,16 @@
+{
+  "name": "Monthly Planner",
+  "short_name": "Planner",
+  "description": "Local-first monthly planner",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f5f5f7",
+  "theme_color": "#8f79e9",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "type": "image/svg+xml",
+      "sizes": "any"
+    }
+  ]
+}

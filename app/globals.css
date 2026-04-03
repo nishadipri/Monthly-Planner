@@ -1,0 +1,373 @@
+:root {
+  --bg: #f5f5f7;
+  --surface: rgba(255, 255, 255, 0.92);
+  --text: #21202b;
+  --muted: #6d6880;
+  --accent: #8f79e9;
+  --accent-strong: #6d56d8;
+  --danger: #b13953;
+  --border: #ddd8ef;
+  --radius: 16px;
+  --shadow: 0 12px 30px rgba(26, 18, 55, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  padding: 0;
+  margin: 0;
+  background: radial-gradient(circle at top, #f4f2ff 0%, var(--bg) 45%);
+  color: var(--text);
+}
+
+.appFont {
+  font-family: var(--font-roboto-slab), serif;
+}
+
+.pageShell {
+  min-height: 100dvh;
+}
+
+.heroPanel {
+  min-height: 300px;
+  background:
+    linear-gradient(rgba(18, 14, 32, 0.45), rgba(18, 14, 32, 0.45)),
+    url('/images/hero.jpg') center/cover no-repeat;
+  display: grid;
+  align-items: end;
+}
+
+.heroContent {
+  color: #fff;
+  max-width: 960px;
+  margin: 0 auto;
+  width: min(100%, 1160px);
+  padding: 48px 24px;
+}
+
+.heroEyebrow {
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.92;
+  margin: 0;
+  font-size: 0.78rem;
+}
+
+.heroContent h1 {
+  margin: 12px 0;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  line-height: 1.1;
+}
+
+.heroContent p {
+  max-width: 720px;
+  margin: 0;
+}
+
+.offlineIndicator {
+  display: inline-block;
+  margin-top: 18px;
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 0.86rem;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.offlineIndicator.isOffline {
+  background: rgba(255, 230, 235, 0.14);
+  border-color: rgba(255, 201, 214, 0.45);
+}
+
+.plannerPanel {
+  width: min(100%, 1160px);
+  margin: -42px auto 0;
+  padding: 0 24px 36px;
+  position: relative;
+  z-index: 1;
+}
+
+.plannerHeader {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  background: var(--surface);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  padding: 22px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.plannerHeader h2 {
+  margin: 6px 0;
+}
+
+.subtle {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.navButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.filters {
+  margin-top: 18px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  box-shadow: var(--shadow);
+  padding: 16px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.filters label,
+.taskForm label {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--muted);
+  display: grid;
+  gap: 6px;
+}
+
+select,
+input,
+textarea,
+button {
+  font: inherit;
+}
+
+select,
+input,
+textarea {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: #fff;
+  color: var(--text);
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  border-radius: 12px;
+  padding: 9px 14px;
+}
+
+.ghostButton {
+  background: #f3f0fe;
+  color: #433582;
+}
+
+.primaryButton {
+  background: var(--accent);
+  color: white;
+}
+
+.primaryButton:hover {
+  background: var(--accent-strong);
+}
+
+.dangerButton {
+  background: #fdeef1;
+  color: var(--danger);
+}
+
+.plannerGrid {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: 1.6fr 0.9fr;
+  gap: 18px;
+}
+
+.calendar {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 14px;
+  background: var(--surface);
+}
+
+.weekdayRow,
+.calendarBody {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.weekdayCell {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+  padding: 6px 0;
+}
+
+.calendarBody {
+  margin-top: 6px;
+}
+
+.dayCell {
+  min-height: 128px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.78);
+  padding: 8px;
+  transition: transform 0.16s ease, border-color 0.16s ease;
+}
+
+.dayCell:hover {
+  transform: translateY(-2px);
+  border-color: #baaef3;
+}
+
+.dayCell.isMuted {
+  opacity: 0.56;
+}
+
+.dayCell.isToday {
+  border-color: #957be8;
+}
+
+.dayCell.isSelected {
+  box-shadow: 0 0 0 2px #cbc0f6 inset;
+}
+
+.dayHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--muted);
+  margin-bottom: 8px;
+  font-size: 0.82rem;
+}
+
+.dayHeader span {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.dayTaskList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.taskChip {
+  width: 100%;
+  text-align: left;
+  padding: 6px 8px;
+  font-size: 0.78rem;
+  border-radius: 8px;
+}
+
+.taskChip.status-done {
+  background: #e8f7ef;
+  color: #246547;
+}
+
+.taskChip.status-in_progress {
+  background: #eef3ff;
+  color: #2f4f90;
+}
+
+.taskChip.status-todo {
+  background: #f7f2ff;
+  color: #4a3a8f;
+}
+
+.moreTasks {
+  margin-top: 8px;
+  margin-bottom: 0;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.taskPanel {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  background: var(--surface);
+  padding: 18px;
+  align-self: start;
+  position: sticky;
+  top: 14px;
+}
+
+.taskPanelHeader h2 {
+  margin: 0 0 4px;
+}
+
+.taskPanelHeader p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.taskForm {
+  margin-top: 14px;
+  display: grid;
+  gap: 12px;
+}
+
+.taskActions {
+  display: grid;
+  gap: 10px;
+}
+
+.migrationNote {
+  margin-top: 14px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #f0ebff;
+  color: #493a92;
+  font-size: 0.88rem;
+}
+
+@media (max-width: 1050px) {
+  .plannerGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .taskPanel {
+    position: static;
+  }
+}
+
+@media (max-width: 860px) {
+  .filters {
+    grid-template-columns: repeat(2, minmax(120px, 1fr));
+  }
+
+  .calendar {
+    overflow-x: auto;
+  }
+
+  .weekdayRow,
+  .calendarBody {
+    min-width: 670px;
+  }
+}
+
+@media (max-width: 560px) {
+  .filters {
+    grid-template-columns: 1fr;
+  }
+
+  .plannerPanel {
+    padding: 0 14px 24px;
+  }
+
+  .heroContent {
+    padding: 32px 14px;
+  }
+}
