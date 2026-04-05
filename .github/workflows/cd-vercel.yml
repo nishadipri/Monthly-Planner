@@ -34,16 +34,6 @@ jobs:
             exit 1
           fi
 
-      - name: Validate Vercel access and project mapping
-        run: |
-          SCOPE_FLAG=""
-          if [ -n "$VERCEL_SCOPE" ]; then
-            SCOPE_FLAG="--scope=$VERCEL_SCOPE"
-          fi
-
-          vercel whoami --token="$VERCEL_TOKEN" $SCOPE_FLAG
-          vercel project inspect "$VERCEL_PROJECT_ID" --token="$VERCEL_TOKEN" $SCOPE_FLAG
-
       - name: Checkout triggering commit
         uses: actions/checkout@v4
         with:
@@ -60,6 +50,20 @@ jobs:
 
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
+
+      - name: Validate Vercel access and project mapping
+        run: |
+          SCOPE_FLAG=""
+          if [ -n "$VERCEL_SCOPE" ]; then
+            SCOPE_FLAG="--scope=$VERCEL_SCOPE"
+          fi
+
+          vercel whoami --token="$VERCEL_TOKEN" $SCOPE_FLAG
+          if ! vercel project inspect "$VERCEL_PROJECT_ID" --token="$VERCEL_TOKEN" $SCOPE_FLAG; then
+            echo "Could not access project '$VERCEL_PROJECT_ID'. Check VERCEL_PROJECT_ID/VERCEL_ORG_ID/VERCEL_TOKEN."
+            echo "If this project is under a team, add VERCEL_SCOPE with your team slug."
+            exit 1
+          fi
 
       - name: Pull Vercel environment
         run: |
