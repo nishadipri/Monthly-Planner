@@ -73,18 +73,10 @@ jobs:
           fi
           vercel pull --yes --environment=production --token="$VERCEL_TOKEN" $SCOPE_FLAG
 
-      - name: Build deployment artifact
+      - name: Deploy to production (build on Vercel)
         run: |
           SCOPE_FLAG=""
           if [ -n "$VERCEL_SCOPE" ]; then
             SCOPE_FLAG="--scope=$VERCEL_SCOPE"
           fi
-          vercel build --prod --token="$VERCEL_TOKEN" $SCOPE_FLAG
-
-      - name: Deploy to production
-        run: |
-          SCOPE_FLAG=""
-          if [ -n "$VERCEL_SCOPE" ]; then
-            SCOPE_FLAG="--scope=$VERCEL_SCOPE"
-          fi
-          vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN" $SCOPE_FLAG
+          vercel deploy --prod --yes --token="$VERCEL_TOKEN" $SCOPE_FLAG
