@@ -1,0 +1,86 @@
+name: CD (Vercel)
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cd-production
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: Deploy to Vercel (Production)
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_branch == 'main'
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_SCOPE: ${{ secrets.VERCEL_SCOPE }}
+
+    steps:
+      - name: Check required secrets
+        run: |
+          if [ -z "$VERCEL_TOKEN" ] || [ -z "$VERCEL_ORG_ID" ] || [ -z "$VERCEL_PROJECT_ID" ]; then
+            echo "Missing required Vercel secrets. Set VERCEL_TOKEN, VERCEL_ORG_ID, and VERCEL_PROJECT_ID in repository settings."
+            exit 1
+          fi
+
+      - name: Validate Vercel access and project mapping
+        run: |
+          SCOPE_FLAG=""
+          if [ -n "$VERCEL_SCOPE" ]; then
+            SCOPE_FLAG="--scope=$VERCEL_SCOPE"
+          fi
+
+          vercel whoami --token="$VERCEL_TOKEN" $SCOPE_FLAG
+          vercel project inspect "$VERCEL_PROJECT_ID" --token="$VERCEL_TOKEN" $SCOPE_FLAG
+
+      - name: Checkout triggering commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel environment
+        run: |
+          SCOPE_FLAG=""
+          if [ -n "$VERCEL_SCOPE" ]; then
+            SCOPE_FLAG="--scope=$VERCEL_SCOPE"
+          fi
+          vercel pull --yes --environment=production --token="$VERCEL_TOKEN" $SCOPE_FLAG
+
+      - name: Build deployment artifact
+        run: |
+          SCOPE_FLAG=""
+          if [ -n "$VERCEL_SCOPE" ]; then
+            SCOPE_FLAG="--scope=$VERCEL_SCOPE"
+          fi
+          vercel build --prod --token="$VERCEL_TOKEN" $SCOPE_FLAG
+
+      - name: Deploy to production
+        run: |
+          SCOPE_FLAG=""
+          if [ -n "$VERCEL_SCOPE" ]; then
+            SCOPE_FLAG="--scope=$VERCEL_SCOPE"
+          fi
+          vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN" $SCOPE_FLAG
