@@ -2,6 +2,14 @@
 
 Modernized in-place from the original JavaScript project to a **Next.js + TypeScript** app with a local-first planner core.
 
+## Live Demo
+
+- Deployed project: https://monthly-planner-taupe.vercel.app/
+
+## Preview
+
+![Monthly Planner deployed preview](public/images/monthly-planner-preview.png)
+
 ## What is included
 
 - Next.js App Router + TypeScript architecture
