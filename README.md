@@ -38,6 +38,33 @@ npm run build
 npm run test:e2e
 ```
 
+## CI/CD (GitHub Actions)
+
+This project now includes two workflows:
+
+- `CI` (`.github/workflows/ci.yml`)
+  - Runs on every push and pull request
+  - Executes: `npm ci`, `npm run lint`, `npm run test`, `npm run build`
+- `CD (Vercel)` (`.github/workflows/cd-vercel.yml`)
+  - Triggers only after `CI` completes successfully
+  - Deploys only when the branch is `main`
+  - Uses Vercel CLI to build and deploy production
+
+### One-time setup for CD
+
+In GitHub repository settings, add these secrets:
+
+- `VERCEL_TOKEN`
+- `VERCEL_ORG_ID`
+- `VERCEL_PROJECT_ID`
+- `VERCEL_SCOPE` (optional, recommended if your project is under a Vercel team)
+
+You can find `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID` in Vercel project settings.
+Create `VERCEL_TOKEN` from your Vercel account token settings.
+
+Without these secrets, CI will still run, but CD deployment will fail with a clear message.
+If `NOT_FOUND` appears, it usually means token/scope/project mismatch.
+
 ## Test coverage added
 
 - Unit
