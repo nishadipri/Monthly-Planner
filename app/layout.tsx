@@ -30,6 +30,11 @@ export const metadata: Metadata = {
   title: 'Monthly Planner',
   description: 'Modern local-first monthly planner with offline-ready basics.',
   manifest: '/manifest.webmanifest',
+  icons: {
+    icon: [{ url: '/icon.svg', type: 'image/svg+xml' }],
+    shortcut: '/icon.svg',
+    apple: '/icon.svg',
+  },
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
