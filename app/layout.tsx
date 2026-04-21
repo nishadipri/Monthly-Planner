@@ -7,17 +7,17 @@ import './globals.css';
 const robotoSlab = localFont({
   src: [
     {
-      path: '../legacy/font/RobotoSlab-Regular.ttf',
+      path: '../public/fonts/RobotoSlab-Regular.ttf',
       weight: '400',
       style: 'normal',
     },
     {
-      path: '../legacy/font/RobotoSlab-SemiBold.ttf',
+      path: '../public/fonts/RobotoSlab-SemiBold.ttf',
       weight: '600',
       style: 'normal',
     },
     {
-      path: '../legacy/font/RobotoSlab-Bold.ttf',
+      path: '../public/fonts/RobotoSlab-Bold.ttf',
       weight: '700',
       style: 'normal',
     },
