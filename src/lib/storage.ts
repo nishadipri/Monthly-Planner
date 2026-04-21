@@ -1,4 +1,4 @@
-import { STORAGE_KEYS, TASK_CATEGORIES } from '@/lib/constants';
+import { STORAGE_KEYS, TASK_CATEGORIES, TASK_PRIORITIES, TASK_STATUSES } from '@/lib/constants';
 import { fromDateISO, toDateISO } from '@/lib/date';
 import type {
   MigrationResult,
@@ -7,6 +7,7 @@ import type {
   TaskFilters,
   TaskInput,
   TaskPriority,
+  TaskStatus,
 } from '@/types/task';
 
 interface LegacyTask {
@@ -94,9 +95,9 @@ function isTaskPayload(value: unknown): value is Task {
     typeof task.id === 'string' &&
     typeof task.title === 'string' &&
     typeof task.dateISO === 'string' &&
-    typeof task.category === 'string' &&
-    typeof task.priority === 'string' &&
-    typeof task.status === 'string' &&
+    TASK_CATEGORIES.includes(task.category as TaskCategory) &&
+    TASK_PRIORITIES.includes(task.priority as TaskPriority) &&
+    TASK_STATUSES.includes(task.status as TaskStatus) &&
     typeof task.notes === 'string' &&
     typeof task.createdAt === 'string' &&
     typeof task.updatedAt === 'string'
