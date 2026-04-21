@@ -6,8 +6,6 @@ import { fromDateISO, getMonthLabel, toDateISO } from '@/lib/date';
 import { createTask, loadSettings, loadTasksWithMigration, saveSettings, saveTasks } from '@/lib/storage';
 import type { MigrationResult, Task, TaskFilters, TaskInput } from '@/types/task';
 
-const initialDate = new Date();
-
 export function usePlanner() {
   const [isReady, setIsReady] = useState(false);
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -16,8 +14,11 @@ export function usePlanner() {
     category: 'all',
     priority: 'all',
   });
-  const [visibleMonth, setVisibleMonth] = useState(() => new Date(initialDate.getFullYear(), initialDate.getMonth(), 1));
-  const [selectedDateISO, setSelectedDateISO] = useState(() => toDateISO(initialDate));
+  const [visibleMonth, setVisibleMonth] = useState(() => {
+    const now = new Date();
+    return new Date(now.getFullYear(), now.getMonth(), 1);
+  });
+  const [selectedDateISO, setSelectedDateISO] = useState(() => toDateISO(new Date()));
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
   const [migrationResult, setMigrationResult] = useState<MigrationResult>({
     migratedCount: 0,
