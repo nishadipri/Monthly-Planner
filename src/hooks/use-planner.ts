@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react';
 import { filterTasks } from '@/lib/filter';
-import { fromDateISO, toDateISO } from '@/lib/date';
+import { fromDateISO, getMonthLabel, toDateISO } from '@/lib/date';
 import { createTask, loadSettings, loadTasksWithMigration, saveSettings, saveTasks } from '@/lib/storage';
 import type { MigrationResult, Task, TaskFilters, TaskInput } from '@/types/task';
 
@@ -69,10 +69,10 @@ export function usePlanner() {
     return tasks.find((task) => task.id === editingTaskId) ?? null;
   }, [editingTaskId, tasks]);
 
-  const monthLabel = new Intl.DateTimeFormat('en-US', {
-    month: 'long',
-    year: 'numeric',
-  }).format(visibleMonth);
+  const monthLabel = useMemo(
+    () => getMonthLabel(visibleMonth.getFullYear(), visibleMonth.getMonth()),
+    [visibleMonth]
+  );
 
   function changeMonth(offset: number): void {
     const nextMonth = new Date(visibleMonth.getFullYear(), visibleMonth.getMonth() + offset, 1);
