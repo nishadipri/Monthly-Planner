@@ -42,8 +42,18 @@ export function CalendarGrid({
             return (
               <article
                 key={day.dateISO}
+                role="button"
+                tabIndex={0}
+                aria-label={`${day.dateISO}${day.isToday ? ', today' : ''}, ${tasks.length} task${tasks.length !== 1 ? 's' : ''}`}
+                aria-pressed={isSelected}
                 className={`dayCell ${day.inCurrentMonth ? '' : 'isMuted'} ${day.isToday ? 'isToday' : ''} ${isSelected ? 'isSelected' : ''}`}
                 onClick={() => onSelectDate(day.dateISO)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    onSelectDate(day.dateISO);
+                  }
+                }}
                 data-testid={`day-${day.dateISO}`}
               >
                 <header className="dayHeader">
