@@ -38,9 +38,8 @@ jobs:
       - name: Build
         run: npm run build
 
-      # Optional: enable once you want browser e2e in CI too.
-      # - name: Install Playwright browsers
-      #   run: npx playwright install --with-deps chromium
-      #
-      # - name: E2E tests
-      #   run: npm run test:e2e
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: E2E tests
+        run: npm run test:e2e
