@@ -8,8 +8,9 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
   webServer: {
-    command: 'npm run dev -- --port 4173',
+    command: 'npm run build && npm run start -- --port 4173',
     url: 'http://localhost:4173',
+    timeout: 120_000,
     reuseExistingServer: !process.env.CI,
   },
   projects: [
