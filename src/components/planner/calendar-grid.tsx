@@ -11,6 +11,8 @@ interface CalendarGridProps {
   tasksByDate: Record<string, Task[]>;
   onSelectDate: (dateISO: string) => void;
   onEditTask: (taskId: string) => void;
+  onToggleComplete: (taskId: string) => void;
+  onRemoveTask: (taskId: string) => void;
 }
 
 export function CalendarGrid({
@@ -20,6 +22,8 @@ export function CalendarGrid({
   tasksByDate,
   onSelectDate,
   onEditTask,
+  onToggleComplete,
+  onRemoveTask,
 }: CalendarGridProps) {
   const matrix = getMonthMatrix(year, monthIndex);
 
@@ -62,24 +66,44 @@ export function CalendarGrid({
                 </header>
 
                 <ul className="dayTaskList">
-                  {tasks.slice(0, 3).map((task) => (
-                    <li key={task.id}>
+                  {tasks.map((task) => (
+                    <li key={task.id} className={`taskChip status-${task.status} priority-${task.priority}`}>
                       <button
                         type="button"
-                        className={`taskChip status-${task.status} priority-${task.priority}`}
-                        onClick={(event) => {
-                          event.stopPropagation();
+                        className="taskChipToggle"
+                        aria-label={task.status === 'done' ? 'Mark incomplete' : 'Mark complete'}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onToggleComplete(task.id);
+                        }}
+                      >
+                        {task.status === 'done' ? '✓' : '○'}
+                      </button>
+                      <button
+                        type="button"
+                        className="taskChipTitle"
+                        onClick={(e) => {
+                          e.stopPropagation();
                           onEditTask(task.id);
                         }}
                         data-testid={`task-item-${task.id}`}
                       >
                         {task.title}
                       </button>
+                      <button
+                        type="button"
+                        className="taskChipDelete"
+                        aria-label={`Delete ${task.title}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onRemoveTask(task.id);
+                        }}
+                      >
+                        ×
+                      </button>
                     </li>
                   ))}
                 </ul>
-
-                {tasks.length > 3 ? <p className="moreTasks">+{tasks.length - 3} more</p> : null}
               </article>
             );
           })
