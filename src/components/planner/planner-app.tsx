@@ -26,6 +26,7 @@ export function PlannerApp() {
     cancelForm,
     removeTask,
     saveTask,
+    toggleTaskComplete,
   } = usePlanner();
 
   return (
@@ -78,6 +79,8 @@ export function PlannerApp() {
               tasksByDate={tasksByDate}
               onSelectDate={selectDate}
               onEditTask={startEditingTask}
+              onToggleComplete={toggleTaskComplete}
+              onRemoveTask={removeTask}
             />
 
             <TaskForm
