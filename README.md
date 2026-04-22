@@ -1,32 +1,23 @@
-# Monthly Planner (Modernized V1)
+# Monthly Planner
 
-Modernized in-place from the original JavaScript project to a **Next.js + TypeScript** app with a local-first planner core.
+A local-first monthly planner built with **Next.js + TypeScript**. Tasks are stored in the browser — no account, no backend, works offline.
 
 ## Live Demo
 
-- Deployed project: https://monthly-planner-taupe.vercel.app/
+[monthly-planner-taupe.vercel.app](https://monthly-planner-taupe.vercel.app/)
 
 ## Preview
 
 ![Monthly Planner deployed preview](public/images/monthly-planner-preview.png)
 
-## What is included
+## Features
 
-- Next.js App Router + TypeScript architecture
-- Single-page monthly planner (`/`) with **Monday-first** calendar grid
-- Month navigation (`Previous`, `Today`, `Next`)
-- Task create/edit/delete
+- Monday-first calendar grid with month navigation
+- Create, edit, delete, and quick-complete tasks directly on the calendar
 - Task fields: title, date, category, priority, status, notes
-- Filters: status, category, priority
-- Local storage keys:
-  - `planner.tasks.v2`
-  - `planner.settings.v1`
-- Legacy auto-migration from old `savedTasks` format
-- Basic offline support:
-  - `manifest.webmanifest`
-  - `public/sw.js`
-  - online/offline indicator in UI
-- Legacy app preserved under `legacy/`
+- Filter tasks by status, category, and priority
+- Offline-ready: service worker + online/offline indicator
+- Auto-migrates tasks from the legacy `savedTasks` format on first load
 
 ## Run locally
 
@@ -35,74 +26,77 @@ npm install
 npm run dev
 ```
 
-Open: `http://localhost:3000`
+Open `http://localhost:3000`
 
-## Validation scripts
+## Scripts
 
 ```bash
-npm run lint
-npm run test
-npm run build
-npm run test:e2e
+npm run lint        # ESLint
+npm run test        # Unit + component tests (Vitest)
+npm run test:e2e    # End-to-end tests (Playwright)
+npm run build       # Production build
 ```
 
-## CI/CD (GitHub Actions)
+## CI/CD
 
-This project now includes two workflows:
+Two GitHub Actions workflows run on every push:
 
-- `CI` (`.github/workflows/ci.yml`)
-  - Runs on every push and pull request
-  - Executes: `npm ci`, `npm run lint`, `npm run test`, `npm run build`
-- `CD (Vercel)` (`.github/workflows/cd-vercel.yml`)
-  - Triggers only after `CI` completes successfully
-  - Deploys only when the branch is `main`
-  - Uses Vercel CLI to build and deploy production
+| Workflow | Trigger | What it does |
+|---|---|---|
+| `CI` | Every push + PR | Lint → unit tests → build → **e2e tests** |
+| `CD (Vercel)` | After CI on `main` | Deploys to production via Vercel CLI |
 
-### One-time setup for CD
+### CD setup (one-time)
 
-In GitHub repository settings, add these secrets:
+Add these secrets to your GitHub repository settings:
 
-- `VERCEL_TOKEN`
-- `VERCEL_ORG_ID`
-- `VERCEL_PROJECT_ID`
-- `VERCEL_SCOPE` (optional, recommended if your project is under a Vercel team)
+- `VERCEL_TOKEN` — from your Vercel account token settings
+- `VERCEL_ORG_ID` — from Vercel project settings
+- `VERCEL_PROJECT_ID` — from Vercel project settings
 
-You can find `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID` in Vercel project settings.
-Create `VERCEL_TOKEN` from your Vercel account token settings.
+Without these, CI still runs but the CD deployment step will fail with a clear error message.
 
-Without these secrets, CI will still run, but CD deployment will fail with a clear message.
-If `NOT_FOUND` appears, it usually means token/scope/project mismatch.
+## Test coverage
 
-## Test coverage added
+**Unit** (`src/lib/`)
+- Calendar matrix generation with Monday-first week alignment
+- Legacy task migration and idempotency
+- Storage settings read/write
+- Filter logic
 
-- Unit
-  - Calendar matrix generation (Monday-first)
-  - Legacy migration + idempotency
-  - Storage settings read/write
-  - Filter behavior
-- Component/integration
-  - Create/edit/delete flow
-  - Filtering behavior
-  - Month navigation across year boundaries
-- E2E smoke
-  - Legacy migration on first load
-  - Persistence after reload
-  - Offline indicator behavior
+**Component** (`src/components/`)
+- Create, edit, delete task flow
+- Filtering behaviour
+- Month navigation across year boundaries
 
-## Project structure (important paths)
+**E2E** (`e2e/`)
+- Legacy migration on first load
+- Task persistence after page reload
+- Offline indicator behaviour
 
-- `app/` - Next.js app router entry points + global styles
-- `src/components/planner/` - planner UI and interactions
-- `src/hooks/use-planner.ts` - core planner state and actions
-- `src/lib/storage.ts` - local storage and migration logic
-- `src/lib/date.ts` - calendar/date helpers
-- `legacy/` - preserved original HTML/CSS/JS implementation
+## Architecture
 
-## AWS Phase 2 (planned)
+| Path | Responsibility |
+|---|---|
+| `app/` | Next.js App Router entry, global styles |
+| `src/components/planner/` | Calendar grid, task form, filters |
+| `src/hooks/use-planner.ts` | All planner state and actions |
+| `src/lib/storage.ts` | localStorage persistence and legacy migration |
+| `src/lib/date.ts` | Calendar math and date formatting |
+| `src/lib/filter.ts` | Task filtering rules |
+| `legacy/` | Original vanilla JS app (preserved for reference) |
+| `docs/` | Architecture decision records |
 
-Not implemented in V1.
+## V2 Roadmap
 
-Recommended future path:
-- Amplify Hosting + Cognito + AppSync + DynamoDB
-- Budget guardrail target: **$0-$5/month** (alerts + strict limits)
-- Subdomain setup can use external DNS CNAME/ALIAS or Route 53 later
+- **Cross-device sync** — replace localStorage with Supabase Postgres or Vercel KV so tasks follow the user across browsers
+- **Recurring tasks** — daily, weekly, and monthly repeat patterns
+- **Drag-and-drop rescheduling** — move tasks between days directly on the calendar
+
+## What I Learned
+
+**What was harder than expected:** The legacy data migration. Old tasks used different field names (`name` → `title`, `difficulty` → `priority`, `dueDate` as a Unix timestamp) and the migration had to handle every edge case silently without data loss. Writing the `isTaskPayload` validator to guard against malformed localStorage data taught me how much can go wrong at system boundaries.
+
+**What I would do differently:** Start with CSS Modules instead of a single global stylesheet. As the component count grew, managing class name collisions in one file became error-prone. Co-locating styles with components would have made the codebase easier to navigate from day one.
+
+**What I'm most proud of:** The three-layer test suite. Having unit tests for pure logic, component tests for user interactions, and Playwright E2E tests running against the production build in CI gives me real confidence when changing things. Most of the improvements in this project were made safely because the tests caught regressions immediately.
