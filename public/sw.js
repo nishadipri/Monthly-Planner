@@ -26,6 +26,10 @@ self.addEventListener('fetch', (event) => {
 
   const { request } = event;
 
+  if (!request.url.startsWith('http')) {
+    return;
+  }
+
   if (request.mode === 'navigate') {
     event.respondWith(fetch(request).catch(() => caches.match('/')));
     return;
