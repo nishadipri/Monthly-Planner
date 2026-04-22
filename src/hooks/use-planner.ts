@@ -108,6 +108,16 @@ export function usePlanner() {
     setEditingTaskId(null);
   }
 
+  function toggleTaskComplete(taskId: string): void {
+    setTasks((current) =>
+      current.map((task) =>
+        task.id === taskId
+          ? { ...task, status: task.status === 'done' ? 'todo' : 'done', updatedAt: new Date().toISOString() }
+          : task
+      )
+    );
+  }
+
   function removeTask(taskId: string): void {
     setTasks((current) => current.filter((task) => task.id !== taskId));
 
@@ -159,5 +169,6 @@ export function usePlanner() {
     cancelForm,
     removeTask,
     saveTask,
+    toggleTaskComplete,
   };
 }
